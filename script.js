@@ -10,16 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const battleship = document.querySelector('.battleship-container')
   const carrier = document.querySelector('.carrier-container')
   const startButton = document.querySelector('#start')
+  const startGame = document.querySelector('#startGame')
   const rotateButton = document.querySelector('#rotate')
   const turnDisplay = document.querySelector('#whose-go')
   const infoDisplay = document.querySelector('#info')
   const saveShipPlaces = document.querySelector('#saveInputShip')
+  const reset = document.querySelector('#reset')
 
   const userSquares = [];
   const computerSquares = [];
   const inputSquares=[];
   const width=10;
   let isHorizontal = true;
+  let isGameOver = false
+  let currentPlayer = 'user'
 
   //Ships
   const shipArray = [
@@ -189,8 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (i === draggedShipLength - 1) directionClass = 'end'
         inputSquares[parseInt(this.dataset.id) - selectedShipIndex + i].classList.add('taken', 'horizontal', directionClass, shipClass)
       }
-    //As long as the index of the ship you are dragging is not in the newNotAllowedVertical array! This means that sometimes if you drag the ship by its
-    //index-1 , index-2 and so on, the ship will rebound back to the displayGrid.
+      
     } else if (!isHorizontal && !newNotAllowedVertical.includes(shipLastId)) {
       for (let i=0; i < draggedShipLength; i++) {
         let directionClass
@@ -210,15 +213,146 @@ document.addEventListener('DOMContentLoaded', () => {
 
   saveShipPlaces.addEventListener('click',()=>{
       const divEle= inputGrid.querySelectorAll('div');
-      
+      startGame.classList.add('d-none')
       divEle.forEach(square=>{
         userGrid.appendChild(square)
         userSquares.push(square)
       })
-      console.log(inputSquares);
-      console.log(userSquares);
+     // console.log(inputSquares);
+     // console.log(userSquares);
   });
 
   
+  function playGame() {
+    if (isGameOver) return
+    if (currentPlayer === 'user') {
+      turnDisplay.innerHTML = 'Your Go'
+      computerSquares.forEach(square => square.addEventListener('click', function (e) {
+        revealSquare(square)
+       
+      },{ once: true }))
+    }
+    if (currentPlayer === 'computer') {
+      turnDisplay.innerHTML = 'Computers Go'
+      setTimeout(computerGo, 1000)
+    }
+  }
+  startGame.addEventListener('click', playGame)
+
+  let destroyerCount = 0
+  let submarineCount = 0
+  let cruiserCount = 0
+  let battleshipCount = 0
+  let carrierCount = 0
+
+  function revealSquare(square) {
+    
+    if (!square.classList.contains('boom') ) {
+      if (square.classList.contains('destroyer')) destroyerCount++
+      if (square.classList.contains('submarine')) submarineCount++
+      if (square.classList.contains('cruiser')) cruiserCount++
+      if (square.classList.contains('battleship')) battleshipCount++
+      if (square.classList.contains('carrier')) carrierCount++
+    }
+    if (square.classList.contains('taken')) {
+      square.classList.add('boom')
+    } else {
+      square.classList.add('miss')
+    }
+    checkForWins()
+    currentPlayer = 'computer'
+     playGame()
+  }
+
+  let cpuDestroyerCount = 0
+  let cpuSubmarineCount = 0
+  let cpuCruiserCount = 0
+  let cpuBattleshipCount = 0
+  let cpuCarrierCount = 0
+
+
+  function computerGo() {
+     square = Math.floor(Math.random() * userSquares.length)
+    if (!userSquares[square].classList.contains('boom') && !userSquares[square].classList.contains('miss')) {
+      const hit = userSquares[square].classList.contains('taken')
+      userSquares[square].classList.add(hit ? 'boom' : 'miss') 
+      if (userSquares[square].classList.contains('destroyer')) cpuDestroyerCount++
+      if (userSquares[square].classList.contains('submarine')) cpuSubmarineCount++
+      if (userSquares[square].classList.contains('cruiser')) cpuCruiserCount++
+      if (userSquares[square].classList.contains('battleship')) cpuBattleshipCount++
+      if (userSquares[square].classList.contains('carrier')) cpuCarrierCount++
+      checkForWins()
+    } else  computerGo()
+    currentPlayer = 'user'
+    turnDisplay.innerHTML = 'Your Go'
+  }
+
+  function checkForWins() {
+    
+    
+    if (destroyerCount === 2) {
+      infoDisplay.innerHTML = `You sunk the computers destroyer`
+      destroyerCount = 10
+    }
+    if (submarineCount === 3) {
+      infoDisplay.innerHTML = `You sunk the computers submarine`
+      submarineCount = 10
+    }
+    if (cruiserCount === 3) {
+      infoDisplay.innerHTML = `You sunk the computers cruiser`
+      cruiserCount = 10
+    }
+    if (battleshipCount === 4) {
+      infoDisplay.innerHTML = `You sunk the computers battleship`
+      battleshipCount = 10
+    }
+    if (carrierCount === 5) {
+      infoDisplay.innerHTML = `You sunk the computers carrier`
+      carrierCount = 10
+    }
+    if (cpuDestroyerCount === 2) {
+      infoDisplay.innerHTML = `computer sunk your destroyer`
+      cpuDestroyerCount = 10
+    }
+    if (cpuSubmarineCount === 3) {
+      infoDisplay.innerHTML = `computer sunk your submarine`
+      cpuSubmarineCount = 10
+    }
+    if (cpuCruiserCount === 3) {
+      infoDisplay.innerHTML = `computer sunk your cruiser`
+      cpuCruiserCount = 10
+    }
+    if (cpuBattleshipCount === 4) {
+      infoDisplay.innerHTML = `computer sunk your battleship`
+      cpuBattleshipCount = 10
+    }
+    if (cpuCarrierCount === 5) {
+      infoDisplay.innerHTML = `computer sunk your carrier`
+      cpuCarrierCount = 10
+    }
+
+    if ((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) === 50) {
+      infoDisplay.innerHTML = "YOU WIN"
+      gameOver()
+      
+    }
+    if ((cpuDestroyerCount + cpuSubmarineCount + cpuCruiserCount + cpuBattleshipCount + cpuCarrierCount) === 50) {
+      infoDisplay.innerHTML = `COMPUTER WINS`
+      gameOver()
+     
+      
+    }
+  }
+
+  function gameOver() {
+    isGameOver = true
+    startGame.removeEventListener('click', playGame)
+    computerGrid.replaceWith(computerGrid.cloneNode(true));
+      reset.classList.toggle('d-none')
+  }
+
+  reset.addEventListener('click',(e)=>{
+    location.reload(true);
+  })
 
 })

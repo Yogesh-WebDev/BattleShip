@@ -54,25 +54,27 @@
                     <div class="modal-footer">
                         <div class="container hidden-info">
                             <div class="setup-buttons" id="setup-buttons">
-                                <button id="start" class="btn btn-warning">Let's Play Game</button>
+                                
                                 <button id="rotate" class="btn btn-primary">Rotate Your Ships</button>
                             </div>
                         </div>
                         <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success btn-lg" id="saveInputShip" data-bs-dismiss="modal">Save changes</button>
+                        <button type="button" class="btn btn-success btn-lg" id="saveInputShip" data-bs-dismiss="modal">Save changes & Play Game</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="container row">
+        <div class="container ">
             <div class="battleship-grid grid-user ship "></div>
             <div class="battleship-grid grid-computer ship "></div>
         </div>
         
         <div class="container hidden-info">
-            <h3 id="whose-go" class="info-text">Your Go</h3>
-            <h3 id="info" class="info-text"></h3>
+            <h3 id="whose-go" class="info-text"></h3><br>
+            <h5 id="info" class="info-text"></h5><br>
+
+            <button class="btn btn-lg btn-danger d-none" id="reset">Re-start Game</button>
         </div>
 
 
