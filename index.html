@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style00.css">
+    <title>Battle Ship Game</title>
+</head>
+
+<body>
+    <div class="container-main">
+        <div class="gameHeader">
+            <h3>Welcome</h3>
+            <h1>BATTLESHIP</h1>
+            <h3>game</h3>
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" id="startGame" class="btn btn-warning" style="margin-top: 5px;" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">
+            Start Game
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="width: 1000px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div  class="battleship-grid grid-input ship">
+
+                           </div>
+                        </div>
+                        <div class="container">
+                            <div class="grid-display">
+                                <div class="ship destroyer-container" draggable="true"><div id="destroyer-0"></div><div id="destroyer-1"></div></div>
+                                <div class="ship submarine-container" draggable="true"><div id="submarine-0"></div><div id="submarine-1"></div><div id="submarine-2"></div></div>
+                                <div class="ship cruiser-container" draggable="true"><div id="cruiser-0"></div><div id="cruiser-1"></div><div id="cruiser-2"></div></div>
+                                <div class="ship battleship-container" draggable="true"><div id="battleship-0"></div><div id="battleship-1"></div><div id="battleship-2"></div><div id="battleship-3"></div></div>
+                                <div class="ship carrier-container" draggable="true"><div id="carrier-0"></div><div id="carrier-1"></div><div id="carrier-2"></div><div id="carrier-3"></div><div id="carrier-4"></div></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="container hidden-info">
+                            <div class="setup-buttons" id="setup-buttons">
+                                <button id="start" class="btn btn-warning">Let's Play Game</button>
+                                <button id="rotate" class="btn btn-primary">Rotate Your Ships</button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success btn-lg" id="saveInputShip" data-bs-dismiss="modal">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container row">
+            <div class="battleship-grid grid-user ship "></div>
+            <div class="battleship-grid grid-computer ship "></div>
+        </div>
+        
+        <div class="container hidden-info">
+            <h3 id="whose-go" class="info-text">Your Go</h3>
+            <h3 id="info" class="info-text"></h3>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>
